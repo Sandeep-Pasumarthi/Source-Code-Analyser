@@ -10,7 +10,7 @@ load_dotenv()
 class LoginOperations:
     def __init__(self):
         self.mongo_client = MongoConnection().get_client()
-        self.db = self.mongo_client[os.getenv("LOGIN_DB")]
+        self.db = self.mongo_client[os.getenv("DB")]
         self.collection = self.db[os.getenv("LOGIN_COLLECTION")]
     
     def is_user_present(self, user_mail: str) -> bool:
