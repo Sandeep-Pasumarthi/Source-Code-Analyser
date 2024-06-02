@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome User</h2>
+        {% if length > 0 %}
+        <table>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Conversation Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(length) %}
+                <tr>
+                    <td>{{ i+1 }}</td>
+                    <td><a href="{{ url_for('chat_conversation', conversation_id=conversations[i]['conversation_id']) }}">{{ conversations[i]["conversation_name"] }}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h3>No Conversations Found</h3>
+        {% endif %}
+        <button onclick="toggleAddForm()">Add Conversation</button>
+        <div id="addForm" class="add-form">
+            <form method="post" action="/add_conversation">
+                <input type="text" name="source" placeholder="GitHub URL" required>
+                <input type="text" name="name" placeholder="Conversation Title" required>
+                <div class="dropdown-container">
+                    <label for="conversation-topic">Choose a topic:</label>
+                    <select id="conversation-topic" name="language">
+                        <option value="python" selected>Python</option>
+                    </select>
+                </div>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleAddForm() {
+            var addForm = document.getElementById("addForm");
+            if (addForm.style.display === "none") {
+                addForm.style.display = "block";
+            } else {
+                addForm.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
